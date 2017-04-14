@@ -2,12 +2,14 @@ import { Router } from 'express'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt-nodejs'
 import User from '../models/userModel'
+import passport from 'passport'
 
 const auth = Router()
 
-auth.get('/test', (req, res) => {
-  res.json({ message: 'Hello sweetie' })
+auth.get('/test', passport.authenticate('jwt') , (req, res) => {
+  res.json({ message: 'Hello sweetie', auth: req.isAuthenticated() })
 })
+
 
 auth.post('/login', (req, res) => {
 	if (!req.body.username || !req.body.password) {

@@ -42,6 +42,18 @@ const jwtOptions = {
 	jwtFromRequest: ExtractJwt.fromHeader('authorization'),
 }
 
+passport.serializeUser(function(user, done) {
+  done(null, user.username);
+})
+
+passport.deserializeUser(function(username, done) {
+	User.findOne({ username: username })
+	.then((user) => {
+		return done(user)
+	})
+	.catch(done)
+})
+
 passport.use('jwt', new JwtStrategy(jwtOptions, (jwt_payload, done) => {
 	User.findOne({ username: jwt_payload.id })
 	.then(user => {
