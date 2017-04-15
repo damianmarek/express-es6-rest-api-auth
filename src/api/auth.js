@@ -39,14 +39,15 @@ auth.post('/register', (req, res) => {
 	if (!req.body.username || !req.body.password) {
 		return res.json({ errorMessage: 'Sign-up unsuccessful. Missing required fields.' })
 	}
-  
+
   findUser(req.body.username)
   .then(() => {
     let user = new User({ username: req.body.username, password: req.body.password })
-		user.save((err) => {
-			if(err) console.log(err)
-		})
-		res.status(200).json(user)
+    user.save().catch(err => {
+      res.status(400).json(err)
+    }).then(() => {
+      res.status(200).json(user)
+    })
   })
   .catch((err) => {
     res.status(400).json({ errorMessage: err.message })
