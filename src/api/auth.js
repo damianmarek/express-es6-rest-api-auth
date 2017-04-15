@@ -39,17 +39,18 @@ auth.post('/register', (req, res) => {
 	if (!req.body.username || !req.body.password) {
 		return res.json({ errorMessage: 'Sign-up unsuccessful. Missing required fields.' })
 	}
-	User.findOne({ username: req.body.username })
-	.then(user => {
-		if(user) return res.json({ errorMessage: 'User with this name exists' })
-	})
-	.then(() => {
-		let user = new User({ username: req.body.username, password: req.body.password })
+  
+  findUser(req.body.username)
+  .then(() => {
+    let user = new User({ username: req.body.username, password: req.body.password })
 		user.save((err) => {
 			if(err) console.log(err)
 		})
-		res.json(user)
-	})
+		res.status(200).json(user)
+  })
+  .catch((err) => {
+    res.status(400).json({ errorMessage: err.message })
+  })
 })
 
 auth.get('/isLogged', (req, res) => {
@@ -58,5 +59,15 @@ auth.get('/isLogged', (req, res) => {
     else return res.status(200).json({ message: 'Logged' , isLogged: true })
   })
 })
+
+let findUser = (username) => {
+  return User.findOne({ username })
+	.then(user => {
+		if(user) throw new Error('User already exists')
+	})
+	.catch((err) => {
+    throw new Error(err.message)
+  })
+}
 
 export default auth
