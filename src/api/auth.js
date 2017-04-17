@@ -14,18 +14,18 @@ auth.get('/test', passport.authenticate('jwt') , (req, res) => {
 
 auth.post('/login', (req, res) => {
 	if (!req.body.username || !req.body.password) {
-		return res.json({ errorMessage: 'Login unsuccessful. Missing required fields.' })
+		return res.status(400).json({ message: 'Missing required fields' })
 	}
 	User.findOne({ username: req.body.username })
 	.then(user => {
-		if(!user) return res.json({ errorMessage: 'No user' })
+		if(!user) return res.status(400).json({ message: 'No user' })
 		bcrypt.compare(req.body.password, user.password, (err, result) => {
 			if(result) {
 				const token = jwt.sign({id: req.body.username},  config.jwtSecret)
-				return res.json({ message: 'ok', token })
+				return res.status(200).json({ message: 'ok', token })
 			}
 			else {
-				return res.json({ errorMessage: 'Bad password' })
+				return res.status(400).json({ message: 'Bad password' })
 			}
 		})
 	})
@@ -36,7 +36,7 @@ auth.post('/login', (req, res) => {
 
 auth.post('/register', (req, res) => {
 	if (!req.body.username || !req.body.password) {
-		return res.json({ errorMessage: 'Sign-up unsuccessful. Missing required fields.' })
+		return res.status(400).json({ message: 'Missing required fields' })
 	}
 
   findUser(req.body.username)
@@ -51,7 +51,7 @@ auth.post('/register', (req, res) => {
     })
   })
   .catch((err) => {
-    res.status(400).json({ errorMessage: err.message })
+    res.status(400).json({ message: err.message })
   })
 })
 
