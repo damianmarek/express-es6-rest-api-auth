@@ -2,8 +2,8 @@ import { Schema } from 'mongoose'
 import bcrypt from 'bcrypt-nodejs'
 
 const userSchema = new Schema({
-  username: String,
-  password: String,
+  username: { type: String, minlength: [8, 'Username must be longer than 7 character']},
+  password: { type: String, minlength: [8, 'Password must be longer than 7 character']},
 })
 
 userSchema.pre('save', function(next) {
