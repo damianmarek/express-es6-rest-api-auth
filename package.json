@@ -8,7 +8,7 @@
     "build": "babel src -s -D -d dist",
     "start": "node dist",
     "prestart": "npm run -s build",
-    "test": "eslint src"
+    "test": "set NODE_ENV=test&& mocha src --recursive --timeout 10000 --compilers js:babel-register --require babel-polyfill"
   },
   "eslintConfig": {
     "extends": "eslint:recommended",
@@ -20,11 +20,12 @@
       }
     },
     "env": {
-      "node": true
+      "node": true,
+      "mocha": true
     },
     "rules": {
       "no-console": 0,
-      "no-unused-vars": 1
+      "no-unused-vars": 0
     }
   },
   "repository": "damianmarek/express-es6-rest-api-auth",
@@ -47,10 +48,15 @@
   "devDependencies": {
     "babel-cli": "^6.9.0",
     "babel-core": "^6.9.0",
+    "babel-polyfill": "^6.23.0",
     "babel-preset-env": "^1.4.0",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-stage-0": "^6.5.0",
+    "babel-register": "^6.24.1",
+    "chai": "^3.5.0",
+    "chai-http": "^3.0.0",
     "eslint": "^3.1.1",
+    "mocha": "^3.2.0",
     "nodemon": "^1.9.2"
   }
 }
