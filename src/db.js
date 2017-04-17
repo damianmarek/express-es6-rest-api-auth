@@ -1,10 +1,11 @@
 import mongoose from 'mongoose'
+import config from './config'
 
 mongoose.Promise = global.Promise
 const db = mongoose.connection
 
 export default callback => {
 	// connect to a database if needed, then pass it to `callback`:
-	mongoose.connect(process.env.MONGO_URL)
+	mongoose.connect(config.db)
 	callback(db);
 }

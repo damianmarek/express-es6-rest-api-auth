@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt-nodejs'
 import User from '../models/userModel'
 import passport from 'passport'
+import config from '../config'
 
 const auth = Router()
 
@@ -17,11 +18,10 @@ auth.post('/login', (req, res) => {
 	}
 	User.findOne({ username: req.body.username })
 	.then(user => {
-		console.log(user)
 		if(!user) return res.json({ errorMessage: 'No user' })
 		bcrypt.compare(req.body.password, user.password, (err, result) => {
 			if(result) {
-				const token = jwt.sign({id: req.body.username}, process.env.JWT_SECRET)
+				const token = jwt.sign({id: req.body.username},  config.jwtSecret)
 				return res.json({ message: 'ok', token })
 			}
 			else {
@@ -54,7 +54,7 @@ auth.post('/register', (req, res) => {
 })
 
 auth.get('/isLogged', (req, res) => {
-  jwt.verify(req.headers['authorization'], process.env.JWT_SECRET, (err, decoded) => {
+  jwt.verify(req.headers['authorization'], config.jwtSecret, (err, decoded) => {
     if(err) return res.status(401).json({ message: 'Not logged', isLogged: false })
     else return res.status(200).json({ message: 'Logged' , isLogged: true })
   })

@@ -14,7 +14,10 @@
     "extends": "eslint:recommended",
     "parserOptions": {
       "ecmaVersion": 7,
-      "sourceType": "module"
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "experimentalObjectRestSpread": true
+      }
     },
     "env": {
       "node": true

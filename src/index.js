@@ -3,16 +3,12 @@ import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
-import dotenv from 'dotenv'
 import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt'
-
-// initialize dotenv before anything
-dotenv.config()
 
 import initializeDb from './db';
 import middleware from './middleware';
 import api from './api';
-import config from './config.json';
+import config from './config';
 import passport from 'passport'
 import User from './models/userModel'
 
@@ -38,7 +34,7 @@ app.use(bodyParser.json({
 app.use(passport.initialize({ session: false }))
 
 const jwtOptions = {
-	secretOrKey: process.env.JWT_SECRET,
+	secretOrKey: config.jwtSecret,
 	jwtFromRequest: ExtractJwt.fromHeader('authorization'),
 }
 
