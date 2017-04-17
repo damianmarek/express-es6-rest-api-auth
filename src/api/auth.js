@@ -42,10 +42,12 @@ auth.post('/register', (req, res) => {
   findUser(req.body.username)
   .then(() => {
     let user = new User({ username: req.body.username, password: req.body.password })
-    user.save().catch(err => {
-      res.status(400).json(err)
-    }).then(() => {
+    user.save()
+    .then(() => {
       res.status(200).json(user)
+    })
+    .catch(err => {
+      res.status(400).json(err)
     })
   })
   .catch((err) => {
