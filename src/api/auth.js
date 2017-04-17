@@ -7,7 +7,7 @@ import passport from 'passport'
 const auth = Router()
 
 auth.get('/test', passport.authenticate('jwt') , (req, res) => {
-  res.json({ message: 'Hello sweetie', auth: req.isAuthenticated() })
+  res.status(200).json({ message: 'Hello sweetie', auth: req.isAuthenticated() })
 })
 
 
@@ -30,8 +30,7 @@ auth.post('/login', (req, res) => {
 		})
 	})
 	.catch((err) => {
-		console.log(err)
-		return res.json(err)
+		return res.status(400).json(err)
 	})
 })
 
