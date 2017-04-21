@@ -57,6 +57,8 @@ ENV TEST_MONGO_URL <YOUR_TEST_MONGODB_URL>
 ```sh
 cd express-es6-rest-api-auth
 
+Then you can use this commands
+
 # Build your docker
 docker build -t es6/api-service .
 #            ^      ^           ^
