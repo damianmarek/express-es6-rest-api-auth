@@ -46,6 +46,14 @@ PORT=8080 npm start
 ```
 Docker Support
 ------
+First you need to ad ENV variables to Dockerfile
+
+```
+ENV JWT_SECRET <YOUR_JWT_SECRET>
+ENV MONGO_URL <YOUR_MONGODB_URL>
+ENV TEST_MONGO_URL <YOUR_TEST_MONGODB_URL>
+```
+
 ```sh
 cd express-es6-rest-api-auth
 
